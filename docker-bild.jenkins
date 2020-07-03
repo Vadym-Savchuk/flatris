@@ -1,0 +1,26 @@
+#!groovy
+// Run docker build
+properties([disableConcurrentDuilds()])
+
+pipeline {
+     agent {
+         label 'master'
+         }
+     options {
+         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumKeepStr: '5'))
+         timestapms()
+     }
+     stages {
+         stage("create docker image") {
+             steps {
+                 echo "===========create docker images==========="
+                 dir ('.') {
+                       sh 'docker build . -t flatris:latest'
+                 } 
+             }
+         }     
+     }
+
+
+
+}
